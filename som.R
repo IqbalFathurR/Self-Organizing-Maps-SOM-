@@ -1,0 +1,48 @@
+library(class)
+library(MASS)
+library(Rcpp)
+library(kohonen)
+search()
+ls(2)
+data(wines)
+head(wines)
+colnames(wines)
+#standarisasi data
+scale(wines)
+head(scale(wines))
+dim(wines)
+str(wines)
+#tempat 
+grid<-somgrid(xdim = 5, ydim = 5, topo = "hexagonal")
+som.wines<-som(scale(wines), grid=somgrid(xdim = 5, ydim = 5, topo = "hexagonal"))
+str(som.wines)
+plot(som.wines, type = "mapping")
+som.wines$grid$pts
+som.wines$unit.classif
+plot(som.wines)
+text(som.wines$grid$pts, labels = som.wines$unit.classif, cex = 1.5)
+str(som.wines)
+som.wines$codes[[1]]
+dist(som.wines$codes[[1]])
+hclust(dist(som.wines$codes[[1]]))
+peta<-cutree(hclust(dist(som.wines$codes[[1]])),5)
+plot(peta)
+plot(som.wines, type = "codes",bgcol = rainbow(5)[peta])
+add.cluster.boundaries(som.wines, peta)
+som.wines$unit.classif
+uji<-c(1.03,-0.68,0.92,0.144,1.08,1.04,1.37,0.302,0.23,0.664,0.755,-0.048,1.22)
+uji
+dim(wines)
+dim(uji)
+class(wines)
+class(uji)
+ujimatrix<-as.matrix(uji)
+class(ujimatrix)
+class(wines)
+dim(ujimatrix)
+dim(wines)
+dim(ujimatrix)<-c(1,13)
+dim(ujimatrix)
+dim(wines)
+map(som.wines,scale(ujimatrix,center =attr(scale(wines),"scaled:center"),
+                    scale = attr(scale(wines),"scaled:scale")))
